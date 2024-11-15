@@ -22,14 +22,14 @@ class BST[T]:
             if self.left:
                 inserted = self.left.insert(key)
             else:
-                self.left = BSTBalanced(key, self.c)
+                self.left = BST(key)
                 inserted = True
 
         elif key > self.key:
             if self.right:
                 inserted = self.right.insert(key)
             else:
-                self.right = BSTBalanced(key, self.c)
+                self.right = BST(key)
                 inserted = True
 
         if inserted:
@@ -37,8 +37,9 @@ class BST[T]:
         return inserted
 
     def contains(self, key: T) -> bool:
-        return (
-            self.key == key
-            or (self.left and self.left.contains(key))
-            or (self.right and self.right.contains(key))
-        )
+        if key < self.key:
+            return self.left and self.left.contains(key)
+        elif key > self.key:
+            return self.right and self.right.contains(key)
+        else:
+            return True

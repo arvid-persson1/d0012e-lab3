@@ -75,11 +75,12 @@ class BSTBalanced[T]:
         self.right = balanced.right
 
     def contains(self, key: T) -> bool:
-        return (
-            self.key == key
-            or (self.left and self.left.contains(key))
-            or (self.right and self.right.contains(key))
-        )
+        if key < self.key:
+            return self.left and self.left.contains(key)
+        elif key > self.key:
+            return self.right and self.right.contains(key)
+        else:
+            return True
 
 
 def from_inorder[T](nodes: list[T], c: float) -> BSTBalanced[T]:
