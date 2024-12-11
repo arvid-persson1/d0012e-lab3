@@ -1,6 +1,10 @@
+small trees (n = 1500):
 	random........	increasing....
 c	insert	lookup	insert	lookup
 N/A	6.2727	5.1928	237.22	173.61
 0.9	13.519	4.5024	29.790	4.6474
 0.75	13.813	4.2845	29.293	4.4476
 0.6	16.510	4.1675	43.997	4.3608
+large tree (n = 1000000):
+c	insert		lookup
+0.7	3787.1799	1379.0164

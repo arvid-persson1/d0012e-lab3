@@ -1,14 +1,14 @@
 from math import nextafter
-from typing import Optional
+from typing import Iterator, Optional, Sequence
 
 UNBALANCED = nextafter(1, 0)
 FULLY_BALANCED = nextafter(0.5, 1)
 
 
-class BSTBalanced[T]:
+class BST[T]:
     key: T
-    left: Optional["BSTBalanced[T]"] = None
-    right: Optional["BSTBalanced[T]"] = None
+    left: Optional["BST[T]"] = None
+    right: Optional["BST[T]"] = None
     # It would be possible to model the data in such a way that not
     # every node has to store `c`, but this makes the code simpler,
     # especially for operations like extracting a subtree.
@@ -21,10 +21,7 @@ class BSTBalanced[T]:
         assert 0.5 < c < 1
 
         self.key = key
-        # self.left = None
-        # self.right = None
         self.c = c
-        # self.size = 1
 
     def insert(self, key: T) -> bool:
         inserted = False
@@ -33,14 +30,14 @@ class BSTBalanced[T]:
             if self.left:
                 inserted = self.left.insert(key)
             else:
-                self.left = BSTBalanced(key, self.c)
+                self.left = BST(key, self.c)
                 inserted = True
 
         elif key > self.key:
             if self.right:
                 inserted = self.right.insert(key)
             else:
-                self.right = BSTBalanced(key, self.c)
+                self.right = BST(key, self.c)
                 inserted = True
 
         if inserted:
@@ -54,21 +51,35 @@ class BSTBalanced[T]:
 
         return inserted
 
-    def traverse_inorder(self) -> list[T]:
-        res = []
+    def traverse_inorder(self) -> Iterator[T]:
+        if self.left:
+            yield from self.left.traverse_inorder()
 
-        def go(node):
-            if node:
-                go(node.left)
-                res.append(node.key)
-                go(node.right)
+        yield self.key
 
-        go(self)
-        return res
+        if self.right:
+            yield from self.right.traverse_inorder()
+
+    def from_inorder(nodes: Sequence[T], c: float) -> "BST[T]":
+        def go(start: int, end: int) -> "BST[T]":
+            if end == start:
+                return None
+
+            mid = (start + end) // 2
+
+            root = BST(nodes[mid], c)
+            root.size = end - start
+            root.left = go(start, mid)
+            root.right = go(mid + 1, end)
+
+            return root
+
+        return go(0, len(nodes))
 
     # TODO: optimize with tree rotations?
     def balance(self):
-        balanced = from_inorder(self.traverse_inorder(), self.c)
+        inorder = tuple(self.traverse_inorder())
+        balanced = BST.from_inorder(inorder, self.c)
         # We can't reassign `self` in Python.
         self.key = balanced.key
         self.left = balanced.left
@@ -81,18 +92,3 @@ class BSTBalanced[T]:
             return self.right and self.right.contains(key)
         else:
             return True
-
-
-def from_inorder[T](nodes: list[T], c: float) -> BSTBalanced[T]:
-    if not nodes:
-        return None
-
-    n = len(nodes)
-    mid = n // 2
-
-    root = BSTBalanced(nodes[mid], c)
-    root.size = n
-    root.left = from_inorder(nodes[:mid], c)
-    root.right = from_inorder(nodes[mid + 1 :], c)
-
-    return root

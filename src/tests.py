@@ -1,18 +1,48 @@
-from bst import *
-from bst_balanced import *
+from bst import BST
+from bst_balanced import BST as BSTBalanced
+from bst_balanced import FULLY_BALANCED, UNBALANCED
 
 
 def disp(root, indent=0):
     if root:
         disp(root.right, indent + 1)
-        print("    " * indent, root.key)
+        print("\t" * indent, root.key)
         disp(root.left, indent + 1)
 
 
 def main():
+    test_regular()
     test_unbalanced()
     test_balanced()
     test_semibalanced()
+
+    print("All tests passed")
+
+
+def test_regular():
+    t = BST(8)
+    assert t.size() == 1
+
+    t.insert(3)
+    assert t.size() == 2 and t.left.size() == 1
+
+    t.insert(3)
+    assert t.size() == 2 and t.left.size() == 1
+
+    t.insert(1)
+    assert t.size() == 3 and t.left.size() == 2 and t.left.left.size() == 1
+
+    t.insert(6)
+    assert t.size() == 4 and t.left.size() == 3 and t.left.right.size() == 1
+
+    t.insert(10)
+    assert t.size() == 5 and t.right.size() == 1
+
+    t.insert(14)
+    assert t.size() == 6 and t.right.size() == 2 and t.right.right.size() == 1
+
+    t.insert(14)
+    assert t.size() == 6 and t.right.size() == 2 and t.right.right.size() == 1
 
 
 def test_unbalanced():

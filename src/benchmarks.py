@@ -3,17 +3,20 @@ from itertools import product
 from time import time
 
 from bst import BST
-from bst_balanced import BSTBalanced
+from bst_balanced import BST as BSTBalanced
 
 # 1500 is fairly safe from reaching max recursion depth.
 INSERTIONS = 1500
 LOOKUPS = INSERTIONS
 UNIQUE_VALUES = INSERTIONS // 2
-ITERATIONS = 1000
+ITERATIONS = 1
 
 LIGHTLY_BALANCED = 0.9
 SEMI_BALANCED = 0.75
 HEAVILY_BALANCED = 0.6
+
+C_LARGE = 0.7
+INSERTIONS_LARGE = 1_000_000
 
 
 def randint():
@@ -43,6 +46,7 @@ def make_tree(root, c):
 
 
 def main():
+    print(f"small trees (n = {INSERTIONS}):")
     print("\trandom........\tincreasing....")
     print("c\tinsert\tlookup\tinsert\tlookup")
 
@@ -94,6 +98,30 @@ def main():
         t3 = time_insert_inc * 1000 / ITERATIONS
         t4 = time_lookup_inc * 1000 / ITERATIONS
         print(f"{t1:#.5g}\t{t2:#.5g}\t{t3:#.5g}\t{t4:#.5g}")
+
+    print(f"large tree (n = {INSERTIONS_LARGE}):")
+    print("c\tinsert\t\tlookup")
+
+    tree = BSTBalanced(randint(), C_LARGE)
+
+    start = time()
+    for _ in range(INSERTIONS_LARGE):
+        tree.insert(randint())
+    end = time()
+
+    time_insert_large = end - start
+
+    start = time()
+    for _ in range(INSERTIONS_LARGE):
+        tree.contains(randint())
+    end = time()
+
+    time_lookup_large = end - start
+
+    t5 = time_insert_large * 1000
+    t6 = time_lookup_large * 1000
+
+    print(f"{C_LARGE}\t{t5:#.8g}\t{t6:#.8g}")
 
 
 if __name__ == "__main__":
