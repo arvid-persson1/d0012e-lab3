@@ -38,10 +38,7 @@ This definition also necessitates a way to determine a tree's size.
 The size of a tree can be easily determined given its root, though this
 is an $O(n)$ operation, where $n$ is the number of nodes in the tree.
 Instead, the decision was made to internally keep track of the tree's
-size and update it when upon insertion.
-
-To make benchmarks more fair (see @results), this was also implemented
-on the regular BST.
+size and update it on insertion.
 
 = Overview <overview>
 
@@ -131,7 +128,7 @@ traverse the whole branch (the entire tree). For a perfectly balanced tree,
 however, lookup cost is mitigated, instead showing the typical $O(log(n))$,
 but insertions become very expensive as balancings occur frequently.
 
-== Benchmarking results <results>
+== Benchmarking results
 
 Below are the results averaged over $1000$ runs of tests with the same starting
 conditions, save for random state. $1500$ insertions were performed here.
