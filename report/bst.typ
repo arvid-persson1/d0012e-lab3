@@ -134,9 +134,9 @@ but insertions become very expensive as balancings occur frequently.
 == Benchmarking results <results>
 
 Below are the results averaged over $1000$ runs of tests with the same starting
-conditions, save for random state. This should theoretically eliminate most
-noise and edge cases such as when the choice of root is very poor.
-Time is measured in milliseconds.
+conditions, save for random state. $1500$ insertions were performed here.
+The averaging should theoretically eliminate most noise and edge cases such as
+when the choice of root is very poor. Time is measured in milliseconds.
 
 #table(
     columns: 5,
@@ -161,7 +161,7 @@ Time is measured in milliseconds.
         "Insertion",
         "Lookup",
     ),
-    "Unbalanced", $6.2727$, $5.1928$, $237.22$, $173.61$,
+    "(Unbalanced)", $6.2727$, $5.1928$, $237.22$, $173.61$,
     $c = 0.9$,    $13.519$, $4.5024$, $29.790$, $4.6474$,
     $c = 0.75$,   $13.813$, $4.2845$, $29.293$, $4.4476$,
     $c = 0.6$,    $16.510$, $4.1675$, $43.997$, $4.3608$,
@@ -177,3 +177,12 @@ For no balance, insertion becomes very expensive as the tree grows larger
 and the main branch becomes longer, but for heavier balance the balancing
 cost outweighs the gain. More experimentation would be needed to determine
 the optimal $c$ for the given data.
+
+A larger tree with $1 000 000$ insertions was also benchmarked, and the
+results are shown below.
+
+#table(
+    columns: 3,
+    table.header("Balance", "Insertion", "Lookup",),
+    $c = 0.7$, $3787.180$, $1379.016$,
+)
