@@ -159,9 +159,11 @@ when the choice of root is very poor. Time is measured in milliseconds.
         "Lookup",
     ),
     "(Unbalanced)", $6.2727$, $5.1928$, $237.22$, $173.61$,
+    $c = 0.98$,     $12.473$, $4.8901$, $36.022$, $7.4240$,
     $c = 0.9$,      $13.519$, $4.5024$, $29.790$, $4.6474$,
     $c = 0.75$,     $13.813$, $4.2845$, $29.293$, $4.4476$,
     $c = 0.6$,      $16.510$, $4.1675$, $43.997$, $4.3608$,
+    $c = 0.52$,     $73.312$, $3.9029$, $188.23$, $3.7772$,
 )
 
 As expected, for random values, less balance means quicker insertion while
