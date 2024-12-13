@@ -9,14 +9,14 @@ from bst_balanced import BST as BSTBalanced
 INSERTIONS = 1500
 LOOKUPS = INSERTIONS
 UNIQUE_VALUES = INSERTIONS // 2
-ITERATIONS = 1
+ITERATIONS = 1000
 
 LIGHTLY_BALANCED = 0.9
 SEMI_BALANCED = 0.75
 HEAVILY_BALANCED = 0.6
 
-C_LARGE = 0.7
 INSERTIONS_LARGE = 1_000_000
+ITERATIONS_LARGE = 1
 
 
 def randint():
@@ -102,26 +102,27 @@ def main():
     print(f"large tree (n = {INSERTIONS_LARGE}):")
     print("c\tinsert\t\tlookup")
 
-    tree = BSTBalanced(randint(), C_LARGE)
+    for c in (LIGHTLY_BALANCED, SEMI_BALANCED, HEAVILY_BALANCED):
+        tree = BSTBalanced(randint(), c)
 
-    start = time()
-    for _ in range(INSERTIONS_LARGE):
-        tree.insert(randint())
-    end = time()
+        start = time()
+        for _ in range(INSERTIONS_LARGE):
+            tree.insert(randint())
+        end = time()
 
-    time_insert_large = end - start
+        time_insert_large = end - start
 
-    start = time()
-    for _ in range(INSERTIONS_LARGE):
-        tree.contains(randint())
-    end = time()
+        start = time()
+        for _ in range(INSERTIONS_LARGE):
+            tree.contains(randint())
+        end = time()
 
-    time_lookup_large = end - start
+        time_lookup_large = end - start
 
-    t5 = time_insert_large * 1000
-    t6 = time_lookup_large * 1000
+        t5 = time_insert_large * 1000 / ITERATIONS_LARGE
+        t6 = time_lookup_large * 1000 / ITERATIONS_LARGE
 
-    print(f"{C_LARGE}\t{t5:#.8g}\t{t6:#.8g}")
+        print(f"{c}\t{t5:#.8g}\t{t6:#.8g}")
 
 
 if __name__ == "__main__":
