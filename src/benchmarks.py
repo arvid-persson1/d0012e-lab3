@@ -11,9 +11,11 @@ LOOKUPS = INSERTIONS
 UNIQUE_VALUES = INSERTIONS // 2
 ITERATIONS = 1000
 
+BARELY_BALANCED = 0.98
 LIGHTLY_BALANCED = 0.9
 SEMI_BALANCED = 0.75
 HEAVILY_BALANCED = 0.6
+STRICTLY_BALANCED = 0.52
 
 INSERTIONS_LARGE = 1_000_000
 ITERATIONS_LARGE = 1
@@ -50,7 +52,14 @@ def main():
     print("\trandom........\tincreasing....")
     print("c\tinsert\tlookup\tinsert\tlookup")
 
-    for c in (None, LIGHTLY_BALANCED, SEMI_BALANCED, HEAVILY_BALANCED):
+    for c in (
+        None,
+        BARELY_BALANCED,
+        LIGHTLY_BALANCED,
+        SEMI_BALANCED,
+        HEAVILY_BALANCED,
+        STRICTLY_BALANCED,
+    ):
         print(c or "N/A", end="\t")
 
         time_insert_random = 0
